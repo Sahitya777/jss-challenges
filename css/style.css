@@ -1,4 +1,4 @@
-.flex-box-container-1{
+.flex-box-container-1,.flex-box-container-2{
     border: 1px solid black;
     display: flex;
     padding: 1rem;
@@ -11,19 +11,16 @@
     align-items: center;
     padding: 10px;
 }
-.container-1{
+.container-1, .container-2{
     border: 1px solid black;
     margin: 0 auto;
     width: 75%;
     text-align: center;
 }
-.flex-box-container-2{
-    display: flex;
-    border: 1px solid blue;
-}
-.container-2{
-    border: 1px solid red;
-    width: 75%;
-    text-align: center;
-    margin: 0 auto;
+
+.flex-box-container-2 img{
+    width: 30%;
+    margin: 10px;
+    box-shadow: 0px 10px 50px rgba(0,0,0,0.7);
+   
 }
