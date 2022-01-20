@@ -18,3 +18,21 @@ function generatecat(){
     image.src="/images/cool-cat.gif";
     div.appendChild(image);
 }
+function rpsgame(yourChoice){
+    console.log(yourChoice);
+    var humanchoice,botchoice;
+    //humanchoice=yourChoice.id;
+    botchoice=numbertochoice(random());
+    alert(botchoice);
+    //results=decidewinner(humanchoice,botchoice);
+    //message=finalmessage(results);
+    //rpsfrontend(yourChoice.id,botchoice,message);
+}
+
+function random(){
+    return Math.floor(Math.random()*3);
+}
+
+function numbertochoice(number){
+    return ['rock','paper','scissors'][number];
+}
