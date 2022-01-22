@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Javascript challenge 1</title>
+    <title>Javascript challenges</title>
 </head>
 <body>
     <div class="container-1">
@@ -32,12 +32,31 @@
     </div>
     <div class="container-3">
         <h2>Challenge 3:Rock,Paper,Scissors</h2>
+
         <div class="flex-box-rps" id="flex-box-rps-div">
             <img id="rock" src="/images/rock.png" height="150" width="150" alt="" onclick="rpsgame(this)">
             <img id="paper" src="/images/paper.png" height="150" width="150" alt="" onclick="rpsgame(this)">
             <img id="scissors" src="/images/sciss.png" height="150" width="150" alt="" onclick="rpsgame(this)">   
         </div>
 
+    </div>
+    <div class="container-4">
+        <h2 id="change-by-color">Challenge 4:Change the Color of All Buttons</h2>
+        <div class="flex-box-pick-color">
+            <form action="">
+                <select name="backdrop" id="background" onchange="buttoncolor(this)">
+                    <option value="random">Random</option>
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                    <option value="reset">Reset</option>
+                </select>
+            </form>
+            <button class="btn btn-primary">Weeee!</button>
+            <button class="btn btn-danger">Wooooo!</button>
+            <button class="btn btn-warning">Weeeeeee!</button>
+            <button class="btn btn-success">Byeeee!</button>
+
+        </div>
     </div>
     <script src="js/script.js"></script>
 </body>
