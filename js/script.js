@@ -79,11 +79,28 @@ function rpsfrontend(humanimagechoice,botimagechoice,finalmessage){
     var botdiv=document.createElement('div');
     var messagediv=document.createElement('div');
 
-    humandiv.innerHTML="<img src='"+ imagesdatabase[humanimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(37,50,233,1);'>"
-    botdiv.innerHTML="<img src='"+ imagesdatabase[botimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(243,38,24,1);'>"
-    messagediv.innerHTML="<h1 style='color: "+finalmessage['color']+";font-size:60px; padding:30px;'>"+finalmessage['message']+"</h1>"
-    document.getElementById('flex-box-rps-div').appendChild(humandiv);
-    document.getElementById('flex-box-rps-div').appendChild(messagediv);
-    document.getElementById('flex-box-rps-div').appendChild(botdiv);
-    
+    if(finalmessage['color']==='green'){
+        humandiv.innerHTML="<img src='"+ imagesdatabase[humanimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(37,50,233,1);'>"
+        botdiv.innerHTML="<img src='"+ imagesdatabase[botimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(243,38,24,1);'>"
+        messagediv.innerHTML="<h1 style='color: "+finalmessage['color']+";font-size:60px; padding:30px;'>"+finalmessage['message']+"</h1>"
+        document.getElementById('flex-box-rps-div').appendChild(humandiv);
+        document.getElementById('flex-box-rps-div').appendChild(messagediv);
+        document.getElementById('flex-box-rps-div').appendChild(botdiv);
+    }
+    else if(finalmessage['color']==='red'){
+        humandiv.innerHTML="<img src='"+ imagesdatabase[humanimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(243,38,24,1);'>"
+        botdiv.innerHTML="<img src='"+ imagesdatabase[botimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(37,50,233,1);'>"
+        messagediv.innerHTML="<h1 style='color: "+finalmessage['color']+";font-size:60px; padding:30px;'>"+finalmessage['message']+"</h1>"
+        document.getElementById('flex-box-rps-div').appendChild(humandiv);
+        document.getElementById('flex-box-rps-div').appendChild(messagediv);
+        document.getElementById('flex-box-rps-div').appendChild(botdiv);
+    }
+    else if(finalmessage['color']==='yellow'){
+        humandiv.innerHTML="<img src='"+ imagesdatabase[humanimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(243 226 24);'>"
+        botdiv.innerHTML="<img src='"+ imagesdatabase[botimagechoice] + "'height =150 width =150 style='box-shadow:0px 10px 50px rgba(243 226 24);'>"
+        messagediv.innerHTML="<h1 style='color: "+finalmessage['color']+";font-size:60px; padding:30px;'>"+finalmessage['message']+"</h1>"
+        document.getElementById('flex-box-rps-div').appendChild(humandiv);
+        document.getElementById('flex-box-rps-div').appendChild(messagediv);
+        document.getElementById('flex-box-rps-div').appendChild(botdiv);
+    }
 }
