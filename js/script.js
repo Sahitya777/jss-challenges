@@ -156,3 +156,44 @@ function randomcolor(){
         all_btns[i].classList.add(choices[randomNumber]);
     }
 }
+
+//*Challenge 5
+
+let blackjackgame={
+    'you':{'scorespan':'#your-blackjack-result','div':'#your-box','score':0},
+    'dealer':{'scorespan':'#dealer-blackjack-result','div':'#dealer-box','score':0},
+};
+
+const You = blackjackgame['you']
+const Dealer=blackjackgame['dealer']
+
+const hitsound=new Audio('sounds/swish.m4a');
+document.querySelector('#blackjack-hit-btn').addEventListener('click',blackjackhit);
+document.querySelector('#blackjack-deal-btn').addEventListener('click',blackjackdeal);
+document.querySelector('#blackjack-stand-btn').addEventListener('click',blackjackstand);
+function blackjackhit(){
+    showcard(You);
+}
+function blackjackstand(){
+    showcard(Dealer);
+}
+function showcard(activeplayer){
+    let cardimg=document.createElement('img');
+    cardimg.src='images/Q.png';
+    document.querySelector(activeplayer['div']).appendChild(cardimg);
+    hitsound.play();
+}
+
+function blackjackdeal(){
+    let yourimages=document.querySelector('#your-box').querySelectorAll('img');
+    let dealerimages=document.querySelector('#dealer-box').querySelectorAll('img');
+    console.log(yourimages);
+    for(let i=0;i<yourimages.length;i++){
+        yourimages[i].remove();
+    }
+    for(let i=0;i<dealerimages.length;i++){
+        images[i].remove();
+    }
+}
+
+
