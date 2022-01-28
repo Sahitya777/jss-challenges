@@ -165,7 +165,7 @@ let blackjackgame={
     'cards':['2','3','4','5','6','7','8','9','10','K','J','Q','A'],
     'cardsmap':{'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'K':10,'Q':10,'J':10,'A':11},
     'wins':0,
-    'loss':0,
+    'losses':0,
     'draws':0,
     'istand':false,
     'turnsover':false,
@@ -195,7 +195,7 @@ function blackjackhit(){
 async function blackjackstand(){
     blackjackgame['istand']=true;
 
-    while(Dealer['score']<16 &&blackjackgame['istand']==true){
+    while(Dealer['score']<17 &&blackjackgame['istand']==true){
         let card=randomcard();
         showcard(card,Dealer);
         updatescore(card,Dealer);
@@ -269,28 +269,30 @@ function showscore(activeplayer){
 
 function computewinner(){
     let winner;
+    console.log(Dealer['score']);
+    console.log(Dealer['score']>You['score']);
     if(You['score']<=21){
         if(You['score']>Dealer['score'] || Dealer['score']>21){
             blackjackgame['wins']++;
             winner=You;
 
         }
-    }
-    else if(Dealer['score']<=21 && You['score']>21){
-        blackjackgame['loss']++;
-        winner=Dealer;
-    }
-    else if(You['score']===Dealer['score']){
-        blackjackgame['draws']++;
-        console.log(blackjackgame['draws']);
-       
+        else if(You['score']<Dealer['score']){
+            blackjackgame['losses']++;
+            winner=Dealer;
+        }
+        else if(You['score']==Dealer['score']){
+            blackjackgame['draws']++;
 
+        }
     }
 
     else if(You['score']>21 && Dealer['score']>21){
         blackjackgame['draws']++;
-        console.log(blackjackgame['draws']);
-
+    }
+    else if(You['score']>21 && Dealer['score']<=21){
+        blackjackgame['losses']++;
+        winner=Dealer;
     }
 
     console.log(blackjackgame);
@@ -308,7 +310,7 @@ function showresult(winner){
             
         }
         else if(winner==Dealer){
-            document.querySelector('#losses').textContent=blackjackgame['loss'];
+            document.querySelector('#losses').textContent=blackjackgame['losses'];
             message="You Lost!";
             messagecolor='red';
             lostsound.play();
