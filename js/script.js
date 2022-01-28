@@ -171,6 +171,8 @@ const You = blackjackgame['you']
 const Dealer=blackjackgame['dealer']
 
 const hitsound=new Audio('sounds/swish.m4a');
+const winsound = new Audio('sounds/cash.mp3');
+const lostsound= new Audio('sounds/aww.mp3');
 document.querySelector('#blackjack-hit-btn').addEventListener('click',blackjackhit);
 document.querySelector('#blackjack-deal-btn').addEventListener('click',blackjackdeal);
 document.querySelector('#blackjack-stand-btn').addEventListener('click',blackjackstand);
@@ -187,6 +189,8 @@ function blackjackstand(){
     showcard(card,Dealer);
     updatescore(card,Dealer);
     showscore(Dealer);
+
+    
 }
 function showcard(card,activeplayer){
     if(activeplayer['score']<=21){
@@ -199,6 +203,7 @@ function showcard(card,activeplayer){
 }
 
 function blackjackdeal(){
+    showresult(computewinner());
     let yourimages=document.querySelector('#your-box').querySelectorAll('img');
     let dealerimages=document.querySelector('#dealer-box').querySelectorAll('img');
     for(let i=0;i<yourimages.length;i++){
@@ -214,6 +219,8 @@ function blackjackdeal(){
     document.querySelector('#dealer-blackjack-result').textContent=0;
     document.querySelector('#dealer-blackjack-result').style.color='#ffffff';
     document.querySelector('#your-blackjack-result').style.color='#ffffff';
+    
+    
 }
 function randomcard(){
     let randomindex=Math.floor(Math.random()*13);
@@ -232,5 +239,53 @@ function showscore(activeplayer){
     else{
         document.querySelector(activeplayer['scorespan']).textContent=activeplayer['score'];
     }
+
+}
+
+function computewinner(){
+    let winner;
+    if(You['score']<=21){
+        if(You['score']>Dealer['score'] || Dealer['score']>21){
+            console.log("You Won!");
+            winner=You;
+
+        }
+    }
+    else if(You['score']<Dealer['score']){
+        console.log("You Lost!");
+        winner=Dealer;
+
+    }
+    else if(You['score']==Dealer['score']){
+        console.log("Draw!");
+    }
+    else if(You['score']>21 && Dealer['score']<=21){
+        console.log("You Lost!");
+        winner=Dealer;
+    }
+    else if(You['score']>21&&Dealer['score']>21){
+        console.log("Draw!");
+    }
+    console.log("Winner is",winner);
+    return winner;
+}
+function showresult(winner){
+    let message ,messagecolor;
+    if(winner==You){
+        message="You Won!";
+        messagecolor='green';
+        winsound.play();
+    }
+    else if(winner==Dealer){
+        message="You Lost!";
+        messagecolor='red';
+        lostsound.play();
+    }
+    else{
+        message="Draw!";
+        messagecolor='black';
+    }
+    document.querySelector('#blackjack-results').textContent=message;
+    document.querySelector('#blackjack-results').style.color=messagecolor;
 
 }
