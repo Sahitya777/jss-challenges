@@ -164,7 +164,11 @@ let blackjackgame={
     'dealer':{'scorespan':'#dealer-blackjack-result','div':'#dealer-box','score':0},
     'cards':['2','3','4','5','6','7','8','9','10','K','J','Q','A'],
     'cardsmap':{'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'K':10,'Q':10,'J':10,'A':11},
-
+    'wins':0,
+    'loss':0,
+    'draws':0,
+    'istand':false,
+    'turnsover':false,
 };
 
 const You = blackjackgame['you']
@@ -177,18 +181,31 @@ document.querySelector('#blackjack-hit-btn').addEventListener('click',blackjackh
 document.querySelector('#blackjack-deal-btn').addEventListener('click',blackjackdeal);
 document.querySelector('#blackjack-stand-btn').addEventListener('click',blackjackstand);
 function blackjackhit(){
-    let card = randomcard();
-    console.log(card);
-    showcard(card,You);
-    updatescore(card,You);
-    console.log(You['score']);
-    showscore(You);
+    if(blackjackgame['istand']==false){
+        let card = randomcard();
+        console.log(card);
+        showcard(card,You);
+        updatescore(card,You);
+        console.log(You['score']);
+        showscore(You);
+    }
+
+
 }
-function blackjackstand(){
-    let card=randomcard();
-    showcard(card,Dealer);
-    updatescore(card,Dealer);
-    showscore(Dealer);
+async function blackjackstand(){
+    blackjackgame['istand']=true;
+
+    while(Dealer['score']<16 &&blackjackgame['istand']==true){
+        let card=randomcard();
+        showcard(card,Dealer);
+        updatescore(card,Dealer);
+        showscore(Dealer);
+        await sleep(1000);
+    }
+
+    blackjackgame['turnsover']=true;
+    showresult(computewinner());
+
 
     
 }
@@ -203,23 +220,31 @@ function showcard(card,activeplayer){
 }
 
 function blackjackdeal(){
-    showresult(computewinner());
-    let yourimages=document.querySelector('#your-box').querySelectorAll('img');
-    let dealerimages=document.querySelector('#dealer-box').querySelectorAll('img');
-    for(let i=0;i<yourimages.length;i++){
-        yourimages[i].remove();
-    }
-    for(let i=0;i<dealerimages.length;i++){
-        dealerimages[i].remove();
 
-    }
-    You['score']=0;
-    Dealer['score']=0;
-    document.querySelector('#your-blackjack-result').textContent=0;
-    document.querySelector('#dealer-blackjack-result').textContent=0;
-    document.querySelector('#dealer-blackjack-result').style.color='#ffffff';
-    document.querySelector('#your-blackjack-result').style.color='#ffffff';
+    if(blackjackgame['turnsover']==true){
+
+        blackjackgame['istand']=false;
+        let yourimages=document.querySelector('#your-box').querySelectorAll('img');
+        let dealerimages=document.querySelector('#dealer-box').querySelectorAll('img');
+        for(let i=0;i<yourimages.length;i++){
+            yourimages[i].remove();
+        }
+        for(let i=0;i<dealerimages.length;i++){
+            dealerimages[i].remove();
     
+        }
+        You['score']=0;
+        Dealer['score']=0;
+        document.querySelector('#your-blackjack-result').textContent=0;
+        document.querySelector('#dealer-blackjack-result').textContent=0;
+        document.querySelector('#dealer-blackjack-result').style.color='#ffffff';
+        document.querySelector('#your-blackjack-result').style.color='#ffffff';
+        document.querySelector('#blackjack-results').textContent="Let's Play";
+        document.querySelector('#blackjack-results').style.color='black';
+        blackjackgame['turnsover']=true;
+    }
+
+ 
     
 }
 function randomcard(){
@@ -246,46 +271,60 @@ function computewinner(){
     let winner;
     if(You['score']<=21){
         if(You['score']>Dealer['score'] || Dealer['score']>21){
-            console.log("You Won!");
+            blackjackgame['wins']++;
             winner=You;
 
         }
     }
-    else if(You['score']<Dealer['score']){
-        console.log("You Lost!");
+    else if(Dealer['score']<=21 && You['score']>21){
+        blackjackgame['loss']++;
         winner=Dealer;
+    }
+    else if(You['score']===Dealer['score']){
+        blackjackgame['draws']++;
+        console.log(blackjackgame['draws']);
+       
 
     }
-    else if(You['score']==Dealer['score']){
-        console.log("Draw!");
+
+    else if(You['score']>21 && Dealer['score']>21){
+        blackjackgame['draws']++;
+        console.log(blackjackgame['draws']);
+
     }
-    else if(You['score']>21 && Dealer['score']<=21){
-        console.log("You Lost!");
-        winner=Dealer;
-    }
-    else if(You['score']>21&&Dealer['score']>21){
-        console.log("Draw!");
-    }
+
+    console.log(blackjackgame);
     console.log("Winner is",winner);
     return winner;
 }
 function showresult(winner){
-    let message ,messagecolor;
-    if(winner==You){
-        message="You Won!";
-        messagecolor='green';
-        winsound.play();
+    if(blackjackgame['turnsover']==true){
+        let message ,messagecolor;
+        if(winner==You){
+            document.querySelector('#wins').textContent=blackjackgame['wins'];
+            message="You Won!";
+            messagecolor='green';
+            winsound.play();
+            
+        }
+        else if(winner==Dealer){
+            document.querySelector('#losses').textContent=blackjackgame['loss'];
+            message="You Lost!";
+            messagecolor='red';
+            lostsound.play();
+    
+        }
+        else{
+            document.querySelector('#draws').textContent=blackjackgame['draws'];
+            message="Draw!";
+            messagecolor='black';
+        }
+        document.querySelector('#blackjack-results').textContent=message;
+        document.querySelector('#blackjack-results').style.color=messagecolor;
+    
     }
-    else if(winner==Dealer){
-        message="You Lost!";
-        messagecolor='red';
-        lostsound.play();
-    }
-    else{
-        message="Draw!";
-        messagecolor='black';
-    }
-    document.querySelector('#blackjack-results').textContent=message;
-    document.querySelector('#blackjack-results').style.color=messagecolor;
-
+    
+}
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve,ms));
 }
