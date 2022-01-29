@@ -15,7 +15,7 @@ function reset(){
 function generatecat(){
     var image=document.createElement('img');
     var div=document.getElementById('flex-cat-gen');
-    image.src="/images/cool-cat.gif";
+    image.src="./images/cool-cat.gif";
     div.appendChild(image);
 }
 function rpsgame(yourChoice){
